@@ -15,6 +15,8 @@ if any(rolls.count(x) == len(rolls) for x in set(rolls)):
     print("YAHTZEE! 🎉")
 elif any(rolls.count(x) == 4 for x in set(rolls)):
     print("You got four of a kind!")
+elif pairs and any(rolls.count(x) == 3 for x in set(rolls)):
+    print("You got a full house!")
 elif any(rolls.count(x) == 3 for x in set(rolls)):
     print("You got three of a kind!")
 elif len(pairs) == 2:

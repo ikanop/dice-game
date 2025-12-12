@@ -1,25 +1,34 @@
 import random
 
-def roll_function(amount):
-    rolls = []
+small_straights = [{1,2,3,4}, {2,3,4,5}, {3,4,5,6}]
+large_straight = [{1,2,3,4,5}]
+
+def roll_dice (amount):
+    dice = []
     for _ in range(amount):
-        rolls.append(random.randint(1, 6))
-    return rolls
+        dice.append(random.randint(1, 6))
+    return dice
 
-rolls = roll_function(5)
-pairs = [x for x in set(rolls) if rolls.count(x) == 2]
+rolled_dice = roll_dice(5)
+doubles = [x for x in set(rolled_dice) if rolled_dice.count(x) == 2]
+tripples = [x for x in set(rolled_dice) if rolled_dice.count(x) == 3]
+quads = [x for x in set(rolled_dice) if rolled_dice.count(x) == 4]
 
-print("You rolled:", *rolls)
+print("You rolled:", *rolled_dice)
 
-if any(rolls.count(x) == len(rolls) for x in set(rolls)):
-    print("YAHTZEE! 🎉")
-elif any(rolls.count(x) == 4 for x in set(rolls)):
-    print("You got four of a kind!")
-elif pairs and any(rolls.count(x) == 3 for x in set(rolls)):
-    print("You got a full house!")
-elif any(rolls.count(x) == 3 for x in set(rolls)):
-    print("You got three of a kind!")
-elif len(pairs) == 2:
-    print("You got two pairs!")
-elif pairs:
-    print("You got a pair!")
+if any(rolled_dice.count(x) == len(rolled_dice) for x in set(rolled_dice)):
+    print(f"YAHTZEE! 🎉")
+elif quads:
+    print(f"You got four of a kind! {quads[0]}'s")
+elif any(straight == set(rolled_dice) for straight in large_straight):
+    print(f"You got a large straight! " + " ".join(str(x) for x in large_straight[0]))
+elif any(straight.issubset(rolled_dice) for straight in small_straights):
+    print(f"You got a small straight! " + " ".join(str(x) for x in small_straights[0]))
+elif doubles and tripples:
+    print(f"You got a full house! {tripples[0]}'s full of {doubles[0]}'s")
+elif tripples:
+    print(f"You got three of a kind! {tripples[0]}'s")
+elif len(doubles) == 2:
+    print(f"You got two pairs! " + " and ".join(f"{x}'s" for x in doubles))
+elif doubles:
+    print(f"You got a pair of {doubles[0]}'s!")
